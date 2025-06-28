@@ -1,0 +1,57 @@
+/* PLEASE NOTE: THESE TAILWIND IMPORTS SHOULD NEVER BE DELETED */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+/* DO NOT DELETE THESE TAILWIND IMPORTS, OTHERWISE THE STYLING WILL NOT RENDER AT ALL */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --headspace-purple: #61398B;
+  --headspace-orange: #FF7E1D;
+  --headspace-blue: #32ABFF;
+  --headspace-yellow: #FEE24F;
+  --headspace-lilac: #A993BC;
+  --headspace-night-blue: #1B2655;
+}
+
+@layer base {
+  body {
+    @apply text-gray-800 font-sans;
+  }
+}
+
+@layer utilities {
+  .bg-headspace-purple {
+    background-color: var(--headspace-purple);
+  }
+  .bg-headspace-orange {
+    background-color: var(--headspace-orange);
+  }
+  .bg-headspace-blue {
+    background-color: var(--headspace-blue);
+  }
+  .bg-headspace-yellow {
+    background-color: var(--headspace-yellow);
+  }
+  .bg-headspace-lilac {
+    background-color: var(--headspace-lilac);
+  }
+  .bg-headspace-night-blue {
+    background-color: var(--headspace-night-blue);
+  }
+  .text-headspace-purple {
+    color: var(--headspace-purple);
+  }
+  .text-headspace-orange {
+    color: var(--headspace-orange);
+  }
+  .text-headspace-blue {
+    color: var(--headspace-blue);
+  }
+  .rounded-card {
+    border-radius: 12px;
+  }
+}
