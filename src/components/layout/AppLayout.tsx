@@ -69,16 +69,20 @@ const AppLayout = ({
           </div>
         </header>
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 pb-20 md:pb-6">
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 pb-24 md:pb-6">
           <div className="md:hidden mb-4">
             <h1 className="text-xl font-bold text-headspace-purple capitalize">
               {activePage}
             </h1>
           </div>
-          <div className="hidden md:block mb-6">
-            <CompanyInfo />
+          {/* Company Info - show in both mobile and desktop but with different styling */}
+          <div className="mb-4 md:mb-6">
+            <div className="md:block">
+              <CompanyInfo />
+            </div>
           </div>
-          {children}
+          {/* Main content container with proper spacing for mobile navigation */}
+          <div className="pb-4 md:pb-0">{children}</div>
         </main>
         {/* Mobile Navigation */}
         <MobileNav activePage={activePage} onNavigate={onNavigate} />

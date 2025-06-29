@@ -12,7 +12,16 @@
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "lucide-react": "^0.441.0"
+    "lucide-react": "^0.441.0",
+    "react-router-dom": "^6.26.2",
+    "class-variance-authority": "latest",
+    "@dnd-kit/core": "^6.1.0",
+    "@dnd-kit/sortable": "^8.0.0",
+    "@dnd-kit/modifiers": "^7.0.0",
+    "@dnd-kit/utilities": "latest",
+    "react-hook-form": "^7.53.0",
+    "@hookform/resolvers/zod": "latest",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20.11.18",

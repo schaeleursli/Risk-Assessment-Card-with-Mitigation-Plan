@@ -8,7 +8,7 @@ const RAMSChart = ({
   showMitigationView
 }: RAMSChartProps) => {
   // More realistic risk data mapping for each operation type
-  const operationRisks = operations.map(operation => {
+  const operationRisks = operations.map((operation, index) => {
     // Assign risk values based on operation type
     let preSeverity = 3;
     let preFrequency = 3;
@@ -74,10 +74,18 @@ const RAMSChart = ({
   // Function to determine cell color based on position
   const getCellColor = (sevIndex: number, freqIndex: number) => {
     const riskScore = (sevIndex + 1) * (5 - freqIndex);
-    if (riskScore <= 4) return 'bg-risk-low'; // Green
-    if (riskScore <= 9) return 'bg-risk-medium'; // Orange/Yellow
-    if (riskScore <= 16) return 'bg-risk-high'; // Red
-    return 'bg-risk-extreme'; // Dark Red
+    if (riskScore <= 4) return 'bg-risk-low-bg';
+    if (riskScore <= 9) return 'bg-risk-medium-bg';
+    if (riskScore <= 16) return 'bg-risk-high-bg';
+    return 'bg-risk-extreme-bg';
+  };
+  // Function to get badge color based on risk score
+  const getBadgeColor = (sevIndex: number, freqIndex: number) => {
+    const riskScore = (sevIndex + 1) * (5 - freqIndex);
+    if (riskScore <= 4) return 'bg-risk-low';
+    if (riskScore <= 9) return 'bg-risk-medium';
+    if (riskScore <= 16) return 'bg-risk-high';
+    return 'bg-risk-extreme';
   };
   const frequencyLabels = ['Almost Certain', 'Likely', 'Possible', 'Unlikely', 'Rare'];
   const severityLabels = ['Negligible', 'Minor', 'Moderate', 'Major', 'Catastrophic'];
@@ -98,14 +106,23 @@ const RAMSChart = ({
           <div>
             <div className="grid grid-cols-5 gap-1">
               {matrixGrid.map((row, rowIndex) => <Fragment key={`row-${rowIndex}`}>
-                  {row.map((cell, colIndex) => <div key={`cell-${rowIndex}-${colIndex}`} className={`
-                        h-32 p-2 rounded-md flex flex-col gap-1 overflow-auto
-                        ${getCellColor(colIndex, rowIndex)}
-                      `}>
-                      {Array.isArray(cell) && cell.map((risk: any) => <div key={risk.id} className="bg-white bg-opacity-90 text-black text-sm font-medium p-2 rounded-md shadow-sm">
-                            {risk.name}
-                          </div>)}
-                    </div>)}
+                  {row.map((cell, colIndex) => {
+                const riskScore = (colIndex + 1) * (5 - rowIndex);
+                return <div key={`cell-${rowIndex}-${colIndex}`} className={`
+                          h-32 p-2 rounded-md flex flex-col gap-1 overflow-auto
+                          ${getCellColor(colIndex, rowIndex)}
+                          relative
+                        `}>
+                        <div className="absolute top-2 left-2 z-10">
+                          <span className={`inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-bold ${getBadgeColor(colIndex, rowIndex)}`}>
+                            {riskScore}
+                          </span>
+                        </div>
+                        {Array.isArray(cell) && cell.map((risk: any) => <div key={risk.id} className="bg-white bg-opacity-90 text-black text-sm font-medium p-2 rounded-md shadow-sm mt-6">
+                              {risk.name}
+                            </div>)}
+                      </div>;
+              })}
                 </Fragment>)}
             </div>
             {/* X-axis labels (Severity) */}
@@ -121,19 +138,19 @@ const RAMSChart = ({
         <h3 className="font-medium mb-4">Risk Score Legend</h3>
         <div className="flex flex-wrap gap-4">
           <div className="flex items-center">
-            <div className="w-5 h-5 bg-risk-low rounded mr-2"></div>
+            <div className="w-5 h-5 bg-risk-low rounded-md mr-2"></div>
             <span className="text-sm">Low (1-4)</span>
           </div>
           <div className="flex items-center">
-            <div className="w-5 h-5 bg-risk-medium rounded mr-2"></div>
+            <div className="w-5 h-5 bg-risk-medium rounded-md mr-2"></div>
             <span className="text-sm">Medium (5-9)</span>
           </div>
           <div className="flex items-center">
-            <div className="w-5 h-5 bg-risk-high rounded mr-2"></div>
+            <div className="w-5 h-5 bg-risk-high rounded-md mr-2"></div>
             <span className="text-sm">High (10-16)</span>
           </div>
           <div className="flex items-center">
-            <div className="w-5 h-5 bg-risk-extreme rounded mr-2"></div>
+            <div className="w-5 h-5 bg-risk-extreme rounded-md mr-2"></div>
             <span className="text-sm">Extreme (17-25)</span>
           </div>
         </div>
@@ -150,13 +167,13 @@ const RAMSChart = ({
                   <div className="flex space-x-4">
                     <div>
                       <span className="text-xs text-gray-500 mr-1">Pre:</span>
-                      <span className={`text-sm font-bold px-2 py-0.5 rounded ${preScore <= 4 ? 'bg-risk-low' : preScore <= 9 ? 'bg-risk-medium' : preScore <= 16 ? 'bg-risk-high' : 'bg-risk-extreme'} text-white`}>
+                      <span className={`text-sm font-bold px-2 py-0.5 rounded-full ${preScore <= 4 ? 'bg-risk-low' : preScore <= 9 ? 'bg-risk-medium' : preScore <= 16 ? 'bg-risk-high' : 'bg-risk-extreme'}`}>
                         {preScore}
                       </span>
                     </div>
                     <div>
                       <span className="text-xs text-gray-500 mr-1">Post:</span>
-                      <span className={`text-sm font-bold px-2 py-0.5 rounded ${postScore <= 4 ? 'bg-risk-low' : postScore <= 9 ? 'bg-risk-medium' : postScore <= 16 ? 'bg-risk-high' : 'bg-risk-extreme'} text-white`}>
+                      <span className={`text-sm font-bold px-2 py-0.5 rounded-full ${postScore <= 4 ? 'bg-risk-low' : postScore <= 9 ? 'bg-risk-medium' : postScore <= 16 ? 'bg-risk-high' : 'bg-risk-extreme'}`}>
                         {postScore}
                       </span>
                     </div>

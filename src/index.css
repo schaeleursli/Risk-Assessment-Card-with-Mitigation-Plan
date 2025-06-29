@@ -3,11 +3,9 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 /* DO NOT DELETE THESE TAILWIND IMPORTS, OTHERWISE THE STYLING WILL NOT RENDER AT ALL */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 :root {
   --headspace-purple: #61398B;
   --headspace-orange: #FF7E1D;
@@ -15,14 +13,25 @@
   --headspace-yellow: #FEE24F;
   --headspace-lilac: #A993BC;
   --headspace-night-blue: #1B2655;
+  /* Risk assessment colors */
+  --risk-low: #4ade80;
+  --risk-low-bg: #dcfce7;
+  --risk-low-text: #166534;
+  --risk-medium: #facc15;
+  --risk-medium-bg: #fef9c3;
+  --risk-medium-text: #854d0e;
+  --risk-high: #fb923c;
+  --risk-high-bg: #ffedd5;
+  --risk-high-text: #9a3412;
+  --risk-extreme: #f87171;
+  --risk-extreme-bg: #fee2e2;
+  --risk-extreme-text: #b91c1c;
 }
-
 @layer base {
   body {
     @apply text-gray-800 font-sans;
   }
 }
-
 @layer utilities {
   .bg-headspace-purple {
     background-color: var(--headspace-purple);
@@ -53,5 +62,42 @@
   }
   .rounded-card {
     border-radius: 12px;
+  }
+  /* Risk assessment color utilities */
+  .bg-risk-low {
+    background-color: var(--risk-low);
+    color: white;
+  }
+  .bg-risk-low-bg {
+    background-color: var(--risk-low-bg);
+    color: var(--risk-low-text);
+  }
+  .bg-risk-medium {
+    background-color: var(--risk-medium);
+    color: white;
+  }
+  .bg-risk-medium-bg {
+    background-color: var(--risk-medium-bg);
+    color: var(--risk-medium-text);
+  }
+  .bg-risk-high {
+    background-color: var(--risk-high);
+    color: white;
+  }
+  .bg-risk-high-bg {
+    background-color: var(--risk-high-bg);
+    color: var(--risk-high-text);
+  }
+  .bg-risk-extreme {
+    background-color: var(--risk-extreme);
+    color: white;
+  }
+  .bg-risk-extreme-bg {
+    background-color: var(--risk-extreme-bg);
+    color: var(--risk-extreme-text);
+  }
+  /* Shadow utility */
+  .shadow-card {
+    box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.1);
   }
 }

@@ -10,13 +10,21 @@ const MitigationList = ({
   const mitigationData = operations.map((operation, index) => {
     // Generate mock data based on operation
     const seed = index + 1;
-    const preScore = (seed % 5 + 1) * ((seed + 2) % 5) + 1;
-    const postScore = Math.max(seed % 5 + 1 - 1, 1) * Math.max((seed + 2) % 5 + 1 - 2, 1);
+    const preSeverity = seed % 5 + 1;
+    const preFrequency = (seed + 2) % 5 + 1;
+    const preScore = preSeverity * preFrequency;
+    const postSeverity = Math.max(preSeverity - 1, 1);
+    const postFrequency = Math.max(preFrequency - 2, 1);
+    const postScore = postSeverity * postFrequency;
     return {
       id: operation.id,
       operation: operation.selectedOperation,
       equipment: operation.selectedEquipment,
+      preSeverity,
+      preFrequency,
       preRiskScore: preScore,
+      postSeverity,
+      postFrequency,
       postRiskScore: postScore,
       mitigationPlan: `For ${operation.selectedOperation} operations using ${operation.selectedEquipment}, ensure proper training, inspection of equipment before use, and follow standard operating procedures. Implement additional safety measures such as barricades, spotters, and communication protocols.`,
       attachments: [{
@@ -47,7 +55,7 @@ const MitigationList = ({
             <div className="flex space-x-3">
               <div className="text-center">
                 <div className="text-xs text-gray-500 mb-1">Pre-Mitigation</div>
-                <div className={`text-sm font-bold px-2 py-0.5 rounded ${getRiskClass(item.preRiskScore)} text-white`}>
+                <div className={`text-sm font-bold px-2 py-0.5 rounded-full ${getRiskClass(item.preRiskScore)}`}>
                   {item.preRiskScore}
                 </div>
               </div>
@@ -55,7 +63,7 @@ const MitigationList = ({
                 <div className="text-xs text-gray-500 mb-1">
                   Post-Mitigation
                 </div>
-                <div className={`text-sm font-bold px-2 py-0.5 rounded ${getRiskClass(item.postRiskScore)} text-white`}>
+                <div className={`text-sm font-bold px-2 py-0.5 rounded-full ${getRiskClass(item.postRiskScore)}`}>
                   {item.postRiskScore}
                 </div>
               </div>

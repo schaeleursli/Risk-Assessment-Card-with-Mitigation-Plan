@@ -15,6 +15,14 @@ export const RiskAssessmentMatrix = ({
   // Function to determine cell color based on position
   const getCellColor = (sevIndex: number, freqIndex: number) => {
     const riskScore = (sevIndex + 1) * (freqIndex + 1);
+    if (riskScore <= 4) return 'bg-risk-low-bg';
+    if (riskScore <= 9) return 'bg-risk-medium-bg';
+    if (riskScore <= 16) return 'bg-risk-high-bg';
+    return 'bg-risk-extreme-bg';
+  };
+  // Function to determine badge color based on position
+  const getBadgeColor = (sevIndex: number, freqIndex: number) => {
+    const riskScore = (sevIndex + 1) * (freqIndex + 1);
     if (riskScore <= 4) return 'bg-risk-low';
     if (riskScore <= 9) return 'bg-risk-medium';
     if (riskScore <= 16) return 'bg-risk-high';
@@ -44,13 +52,24 @@ export const RiskAssessmentMatrix = ({
           }).map((_, freqIndex) => <Fragment key={freqIndex}>
                 {Array.from({
               length: 5
-            }).map((_, sevIndex) => <div key={`${5 - freqIndex - 1}-${sevIndex}`} className={`
-                      h-8 w-full flex items-center justify-center text-xs font-medium border
+            }).map((_, sevIndex) => {
+              const score = (sevIndex + 1) * (5 - freqIndex);
+              const selected = isSelected(sevIndex, 4 - freqIndex);
+              return <div key={`${5 - freqIndex - 1}-${sevIndex}`} className={`
+                      h-8 w-full flex items-center justify-center text-xs font-bold
                       ${getCellColor(sevIndex, 4 - freqIndex)}
-                      ${isSelected(sevIndex, 4 - freqIndex) ? 'ring-2 ring-black ring-opacity-60' : ''}
+                      ${selected ? 'ring-2 ring-headspace-purple' : ''}
+                      rounded-md relative
                     `}>
-                    {(sevIndex + 1) * (5 - freqIndex)}
-                  </div>)}
+                      <span className={`
+                    px-1.5 py-0.5 rounded-full text-white text-[10px] font-bold
+                    ${getBadgeColor(sevIndex, 4 - freqIndex)}
+                    ${selected ? 'scale-110 transform' : ''}
+                  `}>
+                        {score}
+                      </span>
+                    </div>;
+            })}
               </Fragment>)}
           </div>
           {/* X-axis labels (Severity) */}
